@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import sqlite3 as sql
 from sqlite3 import Error
-
+import sqlite3
 
 app = Flask(__name__)
 
@@ -11,12 +11,13 @@ def home():
     return render_template("home.html")
 
 @app.route("/enternew")
-def new_student():
+def new_movie():
     return render_template("add_new_movie.html")
 
-@app.route("/update/<int:movie_id>", methods=["POST", "GET"])
+@app.route("/update/<int:movie_id>", methods=["POST"])
 def update(movie_id):
-    
+    movie = movie.get(movie_id)
+    movie.update(movie_id, movie)
     return render_template("update.html", movie_id=movie_id)
 
 @app.route("/add_new_movie", methods=["POST", "GET"])
@@ -38,7 +39,7 @@ def add_new_movie():
             return render_template("result.html", msg=msg)
             db.close()
 
-@app.route("/updaterec", methods=["POST", "GET"])
+@app.route("/updaterec", methods=["POST"])
 def updaterec():
     if request.method == "POST":
         try:
