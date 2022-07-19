@@ -14,10 +14,9 @@ def home():
 def new_movie():
     return render_template("add_new_movie.html")
 
-@app.route("/update/<int:movie_id>", methods=["POST"])
+@app.route("/update/<int:movie_id>", methods=["POST", "GET"])
 def update(movie_id):
-    movie = movie.get(movie_id)
-    movie.update(movie_id, movie)
+    
     return render_template("update.html", movie_id=movie_id)
 
 @app.route("/add_new_movie", methods=["POST", "GET"])
