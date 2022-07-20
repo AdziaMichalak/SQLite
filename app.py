@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-
     return render_template("home.html")
 
 @app.route("/enternew")
@@ -16,8 +15,11 @@ def new_movie():
 
 @app.route("/update/<int:movie_id>", methods=["POST", "GET"])
 def update(movie_id):
-    
-    return render_template("update.html", movie_id=movie_id)
+    with sql.connect("database.db") as db:
+        cur = db.cursor() 
+        cur.execute(f"select movie_title, genres from movies where movie_id = {movie_id}")
+        rows = cur.fetchall()
+    return render_template("update.html", movie_id=movie_id, movie_title=rows[0], genres=rows[0])
 
 @app.route("/add_new_movie", methods=["POST", "GET"])
 def add_new_movie():
